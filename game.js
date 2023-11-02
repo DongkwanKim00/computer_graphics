@@ -184,7 +184,7 @@ function init() {
     texturesnake = new THREE.TextureLoader().load('body.png');
     texturesnakehead = new THREE.TextureLoader().load('head.png');
     materialsnake = new THREE.MeshBasicMaterial({ map: texturesnake });
-    materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead });
+    materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead, transparent: true });
     //        materialsnakehead = new THREE.MeshBasicMaterial({ color: 0xff0000});
 
     for (var i = 0; i < beginningBlockNumber; i++) {
