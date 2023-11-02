@@ -346,14 +346,27 @@ function setModus(mode) {
 
 function genFruits() {
     for (var z = fruit.length; z < 5; z++) {
-        geometryfruit = new THREE.SphereGeometry(0.05, 32, 32);
-        materialfruit = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        // 구체(geometry)로 변경, 사과를 표현하기 위해 반지름을 조정
+        geometryfruit = new THREE.SphereGeometry(0.1, 32, 32);
+        
+        // 텍스처 로드, 'apple.jpg'로 변경
+        const texture = new THREE.TextureLoader().load('apple.jpg');
+        
+        // 텍스처와 투명도 설정을 포함한 재질 생성
+        materialfruit = new THREE.MeshBasicMaterial({ 
+            map: texture, // 텍스처 설정
+            transparent: true, // 투명도 사용 설정
+            opacity: 1, // 투명도 값 설정 (0 완전 투명, 1 완전 불투명)
+        });
+        
         fruit[z] = new THREE.Mesh(geometryfruit, materialfruit);
-        fruit[z].position.x = THREE.Math.randInt(1, 30) * 0.11 - 1.6505;
-        fruit[z].position.y = THREE.Math.randInt(1, 30) * 0.11 - 1.6505;
+        fruit[z].position.x = (Math.random() * 30 + 1) * 0.11 - 1.6505;
+        fruit[z].position.y = (Math.random() * 30 + 1) * 0.11 - 1.6505;
+        
         scene.add(fruit[z]);
     }
 }
+
 
 function takeBodyParts() {
     for (var i = meshes.length - 1; i > 0; i--) {
