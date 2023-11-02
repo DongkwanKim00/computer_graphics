@@ -88,33 +88,43 @@ function init() {
     scene.add(skybox4);
     scene.add(skybox5);
 
-    geometry = new THREE.BoxGeometry(3.51, 0.1, 0.28);
+    
 
     material = new THREE.MeshBasicMaterial({ color: 0xff9000 });
     material2 = new THREE.MeshBasicMaterial({ color: 0xff6100 });
 
 
-    fenceTexture = new THREE.TextureLoader().load('fence.png');
+    var fenceTexture = new THREE.TextureLoader().load('fence.png');
     var fenceMaterial = new THREE.MeshBasicMaterial({ map: fenceTexture, transparent: true});
 
+    var fenceTexture2 = new THREE.TextureLoader().load('fence2.png');
+    var fenceMaterial2 = new THREE.MeshBasicMaterial({ map: fenceTexture2, transparent: true});
 
+    var fenceTexture3 = new THREE.TextureLoader().load('fence3.png');
+    var fenceMaterial3 = new THREE.MeshBasicMaterial({ map: fenceTexture3, transparent: true});
+
+    var fenceTexture4 = new THREE.TextureLoader().load('fence4.png');
+    var fenceMaterial4 = new THREE.MeshBasicMaterial({ map: fenceTexture4, transparent: true});
+
+    
     //            material = new THREE.MeshBasicMaterial({color : 0xcccccc, wireframe : true});
-    mesh = new THREE.Mesh(geometry, fenceMaterial);
+    geometry = new THREE.BoxGeometry(3.51, 0.1, 0.28);
+    mesh = new THREE.Mesh(geometry, fenceMaterial); //정면 fence
     mesh.position.y = 1.755;
     mesh.position.x = 0.05;
 
-    geometry2 = new THREE.BoxGeometry(3.51, 0.1, 0.28);
-    mesh2 = new THREE.Mesh(geometry2, fenceMaterial);
+    geometry2 = new THREE.BoxGeometry(3.51, 0.1, 0.28); //후면 fence
+    mesh2 = new THREE.Mesh(geometry2, fenceMaterial2);
     mesh2.position.y = -1.655;
     mesh2.position.x = 0.05;
 
-    geometry3 = new THREE.BoxGeometry(0.1, 3.51, 0.28);
-    mesh3 = new THREE.Mesh(geometry3, fenceMaterial);
+    geometry3 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //우측 fence
+    mesh3 = new THREE.Mesh(geometry3, fenceMaterial3);
     mesh3.position.x = 1.755;
     mesh3.position.y = 0.05;
 
-    geometry4 = new THREE.BoxGeometry(0.1, 3.51, 0.28);
-    mesh4 = new THREE.Mesh(geometry4, fenceMaterial);
+    geometry4 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //좌측 fence
+    mesh4 = new THREE.Mesh(geometry4, fenceMaterial4);
     mesh4.position.x = -1.655;
     mesh4.position.y = 0.05;
 
