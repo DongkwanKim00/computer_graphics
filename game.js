@@ -70,8 +70,6 @@ function init() {
 
 
 
-
-
     //Skybox
     // materialSB = new THREE.MeshNormalMaterial();
     texture = new THREE.TextureLoader().load('sky.jpg');
@@ -131,23 +129,28 @@ function init() {
     //        material = new THREE.MeshNormalMaterial();
     material = new THREE.MeshBasicMaterial({ color: 0xff9000 });
     material2 = new THREE.MeshBasicMaterial({ color: 0xff6100 });
+
+    fenceTexture = new THREE.TextureLoader().load('fence.png');
+    var fenceMaterial = new THREE.MeshBasicMaterial({ map: fenceTexture, transparent: true});
+
+
     //            material = new THREE.MeshBasicMaterial({color : 0xcccccc, wireframe : true});
-    mesh = new THREE.Mesh(geometry, material);
+    mesh = new THREE.Mesh(geometry, fenceMaterial);
     mesh.position.y = 1.755;
     mesh.position.x = 0.05;
 
     geometry2 = new THREE.BoxGeometry(3.51, 0.1, 0.28);
-    mesh2 = new THREE.Mesh(geometry2, material);
+    mesh2 = new THREE.Mesh(geometry2, fenceMaterial);
     mesh2.position.y = -1.655;
     mesh2.position.x = 0.05;
 
     geometry3 = new THREE.BoxGeometry(0.1, 3.51, 0.28);
-    mesh3 = new THREE.Mesh(geometry3, material2);
+    mesh3 = new THREE.Mesh(geometry3, fenceMaterial);
     mesh3.position.x = 1.755;
     mesh3.position.y = 0.05;
 
     geometry4 = new THREE.BoxGeometry(0.1, 3.51, 0.28);
-    mesh4 = new THREE.Mesh(geometry4, material2);
+    mesh4 = new THREE.Mesh(geometry4, fenceMaterial);
     mesh4.position.x = -1.655;
     mesh4.position.y = 0.05;
 
