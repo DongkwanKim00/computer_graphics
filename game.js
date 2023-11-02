@@ -5,7 +5,7 @@ if (/Mobi/.test(navigator.userAgent) && location.pathname != "/touch.html" && lo
     location.replace("/touch.html");
 
 }
-var camera, scene, renderer, container, eingabe, canvasDown, currentCanvasRow, currentCanvasCol, ctx, c, difficulty, score, fruit, beginningBlockNumber, gameLost, direction, doUpdatem, geometry, material, material2, materialsnake, materialsnakehead, geometrysnake, texturesnake, texturesnakehead, edges, edges2, edges3, edges4, mesh, meshes, geometry2, material2, mesh2, geometry3, material3, mesh3, geometry4, material4, mesh4, texture, helper, controls, OrbitControls, sun, camerasettings, camerasettings2;
+var camera, scene, renderer, container, eingabe, canvasDown, currentCanvasRow, currentCanvasCol, ctx, c, difficulty, score, fruit, beginningBlockNumber, gameLost, direction, doUpdatem, geometry, material, material2, materialsnake, materialsnakehead, geometrysnake, texturesnake, texturesnakehead, edges, edges2, edges3, edges4, mesh, meshes, geometry2, material2, mesh2, geometry3, material3, mesh3, geometry4, material4, mesh4, texture, helper, controls, OrbitControls, dirt, camerasettings, camerasettings2;
 var cameramode = "ThirdPerson";
 //var cHeight;
 $(document).ready(function () {
@@ -104,15 +104,15 @@ function init() {
 
     // Sun
     var loader = new THREE.TextureLoader();
-    loader.load('grass.jpg',
+    loader.load('dirt.jpg',
         function (texture) {
             var geometry = new THREE.SphereGeometry(4, 40, 40);
             var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
-            sun = new THREE.Mesh(geometry, material);
-            sun.position.z = -4.5;
-            scene.add(sun);
-            sun.rotation.x += -0.00045;
-            sun.rotation.y += 0.0009;
+            dirt = new THREE.Mesh(geometry, material);
+            dirt.position.z = -4.5;
+            scene.add(dirt);
+            dirt.rotation.x += -0.00045;
+            dirt.rotation.y += 0.0009;
         });
 
     scene.add(skybox);
@@ -188,7 +188,11 @@ function init() {
     //        materialsnakehead = new THREE.MeshBasicMaterial({ color: 0xff0000});
 
     for (var i = 0; i < beginningBlockNumber; i++) {
-        if (i == 0) { meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead); } else { meshes[i] = new THREE.Mesh(geometrysnake, materialsnake); }
+        if (i == 0) { 
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead); 
+        }else { 
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnake); 
+        }
         scene.add(meshes[i]);
         meshes[i].position.x = -i * 0.11;
 
@@ -252,13 +256,13 @@ function canvasInit() {
 
     ctx.fillStyle = "#FF0000";
     ctx.fillRect(10, 10, 50, 50);
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "#73B671";
     ctx.fillRect(10, 70, 50, 50);
     ctx.fillRect(10, 130, 50, 50);
 }
 
 function canvasRefresh() {
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "#73B671";
     if (currentCanvasRow + 50 > c.height) {
         currentCanvasRow -= 60;
         currentCanvasCol += 60;
@@ -554,9 +558,9 @@ function onDocumentKeyDown(event) {
 function animate() {
 
     requestAnimationFrame(animate);
-    if (!!sun) {
-        sun.rotation.x += -0.00045;
-        sun.rotation.y += 0.0009;
+    if (!!dirt) {
+        dirt.rotation.x += -0.00045;
+        dirt.rotation.y += 0.0009;
     }
 
 
