@@ -1,15 +1,12 @@
-// Suppress warnings:
 console.warn = function () { };
 
 if (/Mobi/.test(navigator.userAgent) && location.pathname != "/touch.html" && location.search.substr(1) != "desktop") {
     location.replace("/touch.html");
 
 }
-var camera, scene, renderer, container, eingabe, canvasDown, currentCanvasRow, currentCanvasCol, ctx, c, difficulty, score, fruit, beginningBlockNumber, gameLost, direction, doUpdatem, geometry, material, material2, materialsnake, materialsnakehead, geometrysnake, texturesnake, texturesnakehead, edges, edges2, edges3, edges4, mesh, meshes, geometry2, material2, mesh2, geometry3, material3, mesh3, geometry4, material4, mesh4, texture, helper, controls, OrbitControls, sun, camerasettings, camerasettings2;
+var camera, scene, renderer, container, eingabe, canvasDown, currentCanvasRow, currentCanvasCol, ctx, c, difficulty, score, fruit, beginningBlockNumber, gameLost, direction, doUpdatem, geometry, material, material2, materialsnake, materialsnakehead, geometrysnake, texturesnake, texturesnakehead, edges, edges2, edges3, edges4, mesh, meshes, geometry2, material2, mesh2, geometry3, material3, mesh3, geometry4, material4, mesh4, texture, helper, controls, OrbitControls, dirt, camerasettings, camerasettings2;
 var cameramode = "ThirdPerson";
-//var cHeight;
 $(document).ready(function () {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
 
     meshes = [];
@@ -17,7 +14,6 @@ $(document).ready(function () {
     direction = "u";
     gameLost = -1;
     beginningBlockNumber = 3;
-    //cHeight ;//offset 0.3? 0.5?
     fruit = [];
     score = 0;
     difficulty = "MEDIUM";
@@ -31,23 +27,6 @@ $(document).ready(function () {
 
     container = document.getElementById("Spiel");
 
-    //alert("This page is in beta-testing and not related to other dibaku.de contents or services! Many functions are not implemented and not every bug is fixed yet.");
-
-    //For smartphones:
-    if (/Mobi/.test(navigator.userAgent)) {
-        $(window).on("orientationchange", function (event) {
-            if (innerWidth > innerHeight) { //PORTRAIT
-                $('#modal5').modal('close');
-                $('#modal4').modal('open');
-            } else { //LANDSCAPE
-                $('#modal4').modal('close');
-                $('#modal5').modal('open');
-            }
-        });
-    }
-
-
-
     init();
     animate();
 
@@ -60,18 +39,8 @@ function init() {
     document.addEventListener("keydown", onDocumentKeyDown, false);
 
     camera = new THREE.TargetCamera(70, 1, 0.01, 10);
-    /*camera.position.z = cHeight;
-    camera.position.x = 0.5;
-    camera.position.y = 1;
-    camera.rotation.x = Math.PI/2 ;
-    */
     scene = new THREE.Scene();
 
-
-
-
-    //Skybox
-    // materialSB = new THREE.MeshNormalMaterial();
     texture = new THREE.TextureLoader().load('sky.jpg');
     materialSB = new THREE.MeshBasicMaterial({ map: texture });
 
@@ -100,17 +69,17 @@ function init() {
     skybox5.position.y = 0;
     skybox5.position.z = -6;
 
-    // Sun
+    // Dirt
     var loader = new THREE.TextureLoader();
-    loader.load('grass.jpg',
+    loader.load('dirt.jpg',
         function (texture) {
             var geometry = new THREE.SphereGeometry(4, 40, 40);
             var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
-            sun = new THREE.Mesh(geometry, material);
-            sun.position.z = -4.5;
-            scene.add(sun);
-            sun.rotation.x += -0.00045;
-            sun.rotation.y += 0.0009;
+            dirt = new THREE.Mesh(geometry, material);
+            dirt.position.z = -4.5;
+            scene.add(dirt);
+            dirt.rotation.x += -0.00045;
+            dirt.rotation.y += 0.0009;
         });
 
     scene.add(skybox);
@@ -119,16 +88,11 @@ function init() {
     scene.add(skybox4);
     scene.add(skybox5);
 
-    //texture = new THREE.TextureLoader().load('bricks2.jpg');
-
-    //            geometry = new THREE.BoxGeometry( 2.5, 2.5);
-
-
     geometry = new THREE.BoxGeometry(3.51, 0.1, 0.28);
 
-    //        material = new THREE.MeshNormalMaterial();
     material = new THREE.MeshBasicMaterial({ color: 0xff9000 });
     material2 = new THREE.MeshBasicMaterial({ color: 0xff6100 });
+
 
     fenceTexture = new THREE.TextureLoader().load('fence.png');
     var fenceMaterial = new THREE.MeshBasicMaterial({ map: fenceTexture, transparent: true});
@@ -187,17 +151,18 @@ function init() {
     texturesnake = new THREE.TextureLoader().load('body.png');
     texturesnakehead = new THREE.TextureLoader().load('head.png');
     materialsnake = new THREE.MeshBasicMaterial({ map: texturesnake });
-    materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead });
-    //        materialsnakehead = new THREE.MeshBasicMaterial({ color: 0xff0000});
+    materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead, transparent: true });
 
     for (var i = 0; i < beginningBlockNumber; i++) {
-        if (i == 0) { meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead); } else { meshes[i] = new THREE.Mesh(geometrysnake, materialsnake); }
+        if (i == 0) { 
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead); 
+        }else { 
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnake); 
+        }
         scene.add(meshes[i]);
         meshes[i].position.x = -i * 0.11;
 
     }
-
-    //Erstellen des Target
 
     camerasettings = {
         name: 'myTarget',
@@ -255,13 +220,13 @@ function canvasInit() {
 
     ctx.fillStyle = "#FF0000";
     ctx.fillRect(10, 10, 50, 50);
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "#73B671";
     ctx.fillRect(10, 70, 50, 50);
     ctx.fillRect(10, 130, 50, 50);
 }
 
 function canvasRefresh() {
-    ctx.fillStyle = "#00FF00";
+    ctx.fillStyle = "#73B671";
     if (currentCanvasRow + 50 > c.height) {
         currentCanvasRow -= 60;
         currentCanvasCol += 60;
@@ -309,53 +274,17 @@ function exitFullscreen() {
 
 function goFullScreen() {
     enterFullscreen(document.getElementById("Spiel"));
-    //alert(innerWidth + "  " + innerHeight);
     setTimeout(function () {
         document.getElementById("div_guiLeft").style.display = "block";
         document.getElementById("div_guiRigth").style.display = "block";
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(innerWidth, innerHeight);
-        //For touchScreens:
-        window.onclick = function (e) {
-
-
-            if (eingabe === false) {
-
-                if (e.screenX < innerWidth / 2) {
-                    meshes[0].rotation.y += Math.PI / 2;
-                    if (direction == "u") {
-                        direction = "l";
-                    } else if (direction == "d") {
-                        direction = "r";
-                    } else if (direction == "l") {
-                        direction = "d";
-                    } else if (direction == "r") {
-                        direction = "u";
-                    }
-                    eingabe = true;
-                } else {
-                    meshes[0].rotation.y -= Math.PI / 2;
-                    if (direction == "u") {
-                        direction = "r";
-                    } else if (direction == "d") {
-                        direction = "l";
-                    } else if (direction == "l") {
-                        direction = "u";
-                    } else if (direction == "r") {
-                        direction = "d";
-                    }
-                    eingabe = true;
-                }
-            }
-        };
-
     }, 1000);
 }
 
 function leaveFullscreen() {
     exitFullscreen();
-    //alert(innerWidth + "  " + innerHeight);
     setTimeout(function () {
         camera.aspect = 1;
         camera.updateProjectionMatrix();
@@ -430,7 +359,8 @@ function takeBodyParts() {
     for (var i = meshes.length - 1; i > 0; i--) {
         meshes[i].position.x = meshes[i - 1].position.x;
         meshes[i].position.y = meshes[i - 1].position.y;
-
+        meshes[i].rotation.x = meshes[i - 1].rotation.x;
+        meshes[i].rotation.y = meshes[i - 1].rotation.y;
 
     }
 }
@@ -483,43 +413,8 @@ function incrementScore() {
     lbl_fsGUI.innerHTML = "<b>SCORE:<br>" + score + "<br>LENGTH:<br>" + (score / 100 + 3) + "</b>";
 }
 
-
-
-/*function cameraHeight() {
-    var diffRate = 1;
-    var limit = 1.2;
-    if(difficulty == "EASY") {
-        diffRate= 0.1;
-    }else if(difficulty == "MEDIUM"){
-        diffRate = 0.05;
-    }else if(difficulty == "HARD") {
-        limit = 0.2;
-    }
-
-    if (difficulty == "HARD") {
-        cHeight = 0.2;
-    }
-
-    else if (meshes.length * diffRate < limit) {
-        cHeight = meshes.length * diffRate;
-        if (difficulty == "MEDIUM" && cHeight < 0.3) cHeight = 0.3;
-    }
-
-    return cHeight;
-}*/
-
-/*function cameraUpdate() {
-    if (gameLost === -1) {
-
-        camera.position.z = cameraHeight();
-        
-    }
-}*/
-
-
 function onDocumentKeyDown(event) {
     var keyCode = event.which;
-    //alert(keyCode);
     if (eingabe === false) {
         if (keyCode == 37 | keyCode == 65) { //LEFT a=65, Arrow Left = 37
             meshes[0].rotation.y += Math.PI / 2;
@@ -557,9 +452,9 @@ function onDocumentKeyDown(event) {
 function animate() {
 
     requestAnimationFrame(animate);
-    if (!!sun) {
-        sun.rotation.x += -0.00045;
-        sun.rotation.y += 0.0009;
+    if (!!dirt) {
+        dirt.rotation.x += -0.00045;
+        dirt.rotation.y += 0.0009;
     }
 
 
@@ -587,7 +482,6 @@ function animate() {
             for (var z1 = 0; z1 <= 4; z1++) {
                 var firstBB = new THREE.Box3().setFromObject(meshes[0]);
                 var secondBB = new THREE.Box3().setFromObject(fruit[z1]);
-                //                    var collision = firstBB.isIntersectionBox(secondBB);
                 if (firstBB.isIntersectionBox(secondBB)) {
                     addOneBlock();
                     scene.remove(fruit[z1]);
