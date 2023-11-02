@@ -431,7 +431,8 @@ function takeBodyParts() {
     for (var i = meshes.length - 1; i > 0; i--) {
         meshes[i].position.x = meshes[i - 1].position.x;
         meshes[i].position.y = meshes[i - 1].position.y;
-
+        meshes[i].rotation.x = meshes[i - 1].rotation.x;
+        meshes[i].rotation.y = meshes[i - 1].rotation.y;
 
     }
 }
