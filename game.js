@@ -74,7 +74,7 @@ function init() {
 
     //Skybox
     // materialSB = new THREE.MeshNormalMaterial();
-    texture = new THREE.TextureLoader().load('seamless space.PNG');
+    texture = new THREE.TextureLoader().load('sky.jpg');
     materialSB = new THREE.MeshBasicMaterial({ map: texture });
 
     sky = new THREE.BoxGeometry(0.1, 18, 18);
@@ -104,7 +104,7 @@ function init() {
 
     // Sun
     var loader = new THREE.TextureLoader();
-    loader.load('texture_sun_prev2.jpg',
+    loader.load('grass.jpg',
         function (texture) {
             var geometry = new THREE.SphereGeometry(4, 40, 40);
             var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
