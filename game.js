@@ -181,8 +181,8 @@ function init() {
     scene.add(edges4);
 
     geometrysnake = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-    texturesnake = new THREE.TextureLoader().load('schlange.jpg');
-    texturesnakehead = new THREE.TextureLoader().load('kopf.jpg');
+    texturesnake = new THREE.TextureLoader().load('body.png');
+    texturesnakehead = new THREE.TextureLoader().load('head.png');
     materialsnake = new THREE.MeshBasicMaterial({ map: texturesnake });
     materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead });
     //        materialsnakehead = new THREE.MeshBasicMaterial({ color: 0xff0000});
