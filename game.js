@@ -5,7 +5,7 @@ if (/Mobi/.test(navigator.userAgent) && location.pathname != "/touch.html" && lo
 
 }
 var camera, scene, renderer, container, eingabe, canvasDown, currentCanvasRow, currentCanvasCol, ctx, c, difficulty, score, fruit, beginningBlockNumber, gameLost, direction, doUpdatem, geometry, material, material2, materialsnake, materialsnakehead, geometrysnake, texturesnake, texturesnakehead, edges, edges2, edges3, edges4, mesh, meshes, geometry2, material2, mesh2, geometry3, material3, mesh3, geometry4, material4, mesh4, texture, helper, controls, OrbitControls, dirt, camerasettings, camerasettings2;
-var cameramode = "ThirdPerson";
+var cameramode = "3RD.PERSON";
 $(document).ready(function () {
     $('.modal').modal();
 
@@ -16,6 +16,7 @@ $(document).ready(function () {
     beginningBlockNumber = 3;
     fruit = [];
     score = 0;
+    perspectiveView=cameramode;
     difficulty = "MEDIUM";
     c = document.getElementById("myCanvas");
     ctx = c.getContext("2d");
@@ -194,8 +195,9 @@ function init() {
         matchRotation: true,
     }
 
-    camera.addTarget(camerasettings);
-    camera.setTarget('myTarget');
+    setView(cameramode)
+    // camera.addTarget(camerasettings);
+    // camera.setTarget('myTarget');
     meshes[0].rotation.x = Math.PI / 2;
 
     helper = new THREE.GridHelper(3.31, 30, 0x444444, 0x888888);
@@ -336,14 +338,14 @@ function startGameLoop() {
 function setDifficulty(diff) {
     difficulty = diff;
     var lbl_gui = document.getElementById("lbl_gui");
-    lbl_gui.innerHTML = lbl_gui.innerHTML = "SCORE: " + score + "<br>DIFFICULTY: " + difficulty;
+    lbl_gui.innerHTML = lbl_gui.innerHTML = "SCORE: " + score + "<br>DIFFICULTY: " + difficulty+ "<br>VIEW: " + perspectiveView;
 
 }
 
-function setModus(mode) {
+function setView(mode) {
     cameramode = mode;
-
-    if (cameramode === "FirstPerson") {
+    perspectiveView = cameramode;
+    if (cameramode === "1ST.PERSON") {
         camera.addTarget(camerasettings2);
         camera.setTarget('myTarget2');
         scene.remove(meshes[0]);
@@ -352,6 +354,8 @@ function setModus(mode) {
         camera.setTarget('myTarget');
         scene.add(meshes[0]);
     }
+    var lbl_gui = document.getElementById("lbl_gui");
+    lbl_gui.innerHTML = lbl_gui.innerHTML = "SCORE: " + score + "<br>DIFFICULTY: " + difficulty+ "<br>VIEW: " + perspectiveView;
 }
 
 function genFruits() {
