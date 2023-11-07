@@ -88,7 +88,7 @@ function init() {
     scene.add(skybox4);
     scene.add(skybox5);
 
-    
+
 
     material = new THREE.MeshBasicMaterial({ color: 0xff9000 });
     material2 = new THREE.MeshBasicMaterial({ color: 0xff6100 });
@@ -106,24 +106,24 @@ function init() {
     var fenceTexture4 = new THREE.TextureLoader().load('fence4.png');
     var fenceMaterial4 = new THREE.MeshBasicMaterial({ map: fenceTexture4, transparent: true});
 
-    
+
     //            material = new THREE.MeshBasicMaterial({color : 0xcccccc, wireframe : true});
     geometry = new THREE.BoxGeometry(3.51, 0.1, 0.28);
-    mesh = new THREE.Mesh(geometry, fenceMaterial); //정면 fence
+    mesh = new THREE.Mesh(geometry, fenceMaterial); // front side fence
     mesh.position.y = 1.755;
     mesh.position.x = 0.05;
 
-    geometry2 = new THREE.BoxGeometry(3.51, 0.1, 0.28); //후면 fence
+    geometry2 = new THREE.BoxGeometry(3.51, 0.1, 0.28); //backside fence
     mesh2 = new THREE.Mesh(geometry2, fenceMaterial2);
     mesh2.position.y = -1.655;
     mesh2.position.x = 0.05;
 
-    geometry3 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //우측 fence
+    geometry3 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //right side fence
     mesh3 = new THREE.Mesh(geometry3, fenceMaterial3);
     mesh3.position.x = 1.755;
     mesh3.position.y = 0.05;
 
-    geometry4 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //좌측 fence
+    geometry4 = new THREE.BoxGeometry(0.1, 3.51, 0.28); //left side fence
     mesh4 = new THREE.Mesh(geometry4, fenceMaterial4);
     mesh4.position.x = -1.655;
     mesh4.position.y = 0.05;
@@ -163,11 +163,13 @@ function init() {
     materialsnake = new THREE.MeshBasicMaterial({ map: texturesnake });
     materialsnakehead = new THREE.MeshBasicMaterial({ map: texturesnakehead, transparent: true });
 
+
+    // the part that shows the length of the earthworm in the game
     for (var i = 0; i < beginningBlockNumber; i++) {
-        if (i == 0) { 
-            meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead); 
-        }else { 
-            meshes[i] = new THREE.Mesh(geometrysnake, materialsnake); 
+        if (i == 0) {
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnakehead);
+        }else {
+            meshes[i] = new THREE.Mesh(geometrysnake, materialsnake);
         }
         scene.add(meshes[i]);
         meshes[i].position.x = -i * 0.11;
@@ -354,28 +356,29 @@ function setModus(mode) {
     }
 }
 
+// where apples occur randomly
 function genFruits() {
     for (var z = fruit.length; z < 5; z++) {
         geometryfruit = new THREE.SphereGeometry(0.05, 32, 32);
 
         const texture = new THREE.TextureLoader().load('apple.jpg');
 
-        materialfruit = new THREE.MeshBasicMaterial({ 
+        materialfruit = new THREE.MeshBasicMaterial({
             map: texture,
-            transparent: true,   
-            opacity: 1.0,        
+            transparent: true,
+            opacity: 1.0,
         });
 
         fruit[z] = new THREE.Mesh(geometryfruit, materialfruit);
-        
+
         fruit[z].position.x = THREE.Math.randInt(1, 30) * 0.11 - 1.6505;
         fruit[z].position.y = THREE.Math.randInt(1, 30) * 0.11 - 1.6505;
-        
+
         scene.add(fruit[z]);
     }
 }
 
-
+// the part that makes your body turn as well when head turns
 function takeBodyParts() {
     for (var i = meshes.length - 1; i > 0; i--) {
         meshes[i].position.x = meshes[i - 1].position.x;
@@ -385,6 +388,7 @@ function takeBodyParts() {
 
     }
 }
+
 
 function right() {
 
@@ -416,6 +420,7 @@ function down() {
     meshes[0].position.y -= 0.11;
 }
 
+// the part where the earthworm's body length is added
 function addOneBlock() {
 
     incrementScore();
@@ -427,6 +432,7 @@ function addOneBlock() {
 
 }
 
+// add Score
 function incrementScore() {
     score += 100;
     canvasRefresh();
@@ -482,8 +488,11 @@ function animate() {
 
     if (doUpdate) {
 
+        // scores-related parts
         if (gameLost !== -1) {
             if (gameLost < meshes.length) {
+
+                // the part that shows the score when the game ends
                 if (gameLost == 0) {
                     var lbl_lostScore = document.getElementById("lbl_lostScore");
                     lbl_lostScore.innerHTML = score;
@@ -499,7 +508,7 @@ function animate() {
 
             }
         } else {
-
+            // the part where your body stretches when you eat an apple
             for (var z1 = 0; z1 <= 4; z1++) {
                 var firstBB = new THREE.Box3().setFromObject(meshes[0]);
                 var secondBB = new THREE.Box3().setFromObject(fruit[z1]);
@@ -511,6 +520,7 @@ function animate() {
                 }
             }
 
+            // the part where the game ends when you collide with a wall or body
             var headBB = new THREE.Box3().setFromObject(meshes[0]);
             var northBB = new THREE.Box3().setFromObject(mesh);
             var southBB = new THREE.Box3().setFromObject(mesh2);
@@ -536,6 +546,7 @@ function animate() {
 
             //cameraUpdate();
 
+            // the part where the game ends when you hit your body
             for (var i = 1; i < meshes.length; i++) {
                 if (meshes[i].position.x == meshes[0].position.x && meshes[i].position.y == meshes[0].position.y) {
                     gameLost = 0;
