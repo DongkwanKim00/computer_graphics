@@ -365,7 +365,7 @@ function genFruits() {
     for (var z = fruit.length; z < 5; z++) {
         geometryfruit = new THREE.SphereGeometry(0.05, 32, 32);
 
-        const texture = new THREE.TextureLoader().load('apple.jpg');
+        const texture = new THREE.TextureLoader().load('orange.jpg');
 
         materialfruit = new THREE.MeshBasicMaterial({
             map: texture,
